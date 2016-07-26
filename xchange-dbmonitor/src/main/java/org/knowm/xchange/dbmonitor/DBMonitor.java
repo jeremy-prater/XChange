@@ -1,4 +1,4 @@
-package org.knowm.xchange.examples.btc38;
+package org.knowm.xchange.dbmonitor;
 
 import org.knowm.xchange.btc38.Btc38Exchange;
 import org.knowm.xchange.btc38.service.polling.Btc38MarketDataService;
