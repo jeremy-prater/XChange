@@ -103,6 +103,7 @@
 		<module>xchange-cryptofacilities</module>
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptsy</module>
+		<module>xchange-dbmonitor</module>
 		<module>xchange-empoex</module>
 		<module>xchange-examples</module>
 		<module>xchange-gatecoin</module>

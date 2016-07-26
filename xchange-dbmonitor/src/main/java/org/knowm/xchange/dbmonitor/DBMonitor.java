@@ -5,10 +5,7 @@ import org.knowm.xchange.btc38.service.polling.Btc38MarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 
-/**
- * Created by Yingzhe on 12/20/2014.
- */
-public class Btc38MarketDataDemo {
+public class DBMonitor {
 
   public static void main(String[] args) throws Exception {
 
