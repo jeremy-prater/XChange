@@ -1,5 +1,30 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
+	<build>
+	<plugins>
+	<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-assembly-plugin</artifactId>
+	<executions>
+	<execution>
+	<phase>package</phase>
+	<goals>
+	<goal>single</goal>
+	</goals>
+	<configuration>
+	<archive>
+	<manifest>
+	<mainClass>org.knowm.xchange.dbmonitor.DBMonitor</mainClass>
+	</manifest>
+	</archive>
+	<descriptorRefs>
+	<descriptorRef>jar-with-dependencies</descriptorRef>
+	</descriptorRefs>
+	</configuration>
+	</execution>
+	</executions>
+	</plugin>
+	</plugins>
+	</build>
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -398,16 +423,3 @@
 	</dependencies>
 
 </project>
-
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.knowm.xchange</groupId>
-            <artifactId>exec-maven-plugin</artifactId>
-            <version>1.2.1</version>
-            <configuration>
-                <mainClass>org.knowm.xchange.dbmonitor.DBMonitor</mainClass>
-            </configuration>
-        </plugin>
-    </plugins>
-</build>
