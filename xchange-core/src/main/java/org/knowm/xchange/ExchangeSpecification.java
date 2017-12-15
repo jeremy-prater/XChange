@@ -30,22 +30,28 @@ public class ExchangeSpecification {
 
   private String plainTextUri;
 
-  private String sslUriStreaming;
-
-  private String plainTextUriStreaming;
-
   private String host;
 
   private int port = 80;
 
+  private String proxyHost;
+
+  private Integer proxyPort;
+
+  private int httpConnTimeout = 0; // default rescu configuration will be used if value not changed
+
+  private int httpReadTimeout = 0; // default rescu configuration will be used if value not changed
+
   private String metaDataJsonFileOverride = null;
 
-  private boolean shouldLoadRemoteMetaData;
+  private boolean shouldLoadRemoteMetaData = true; // default value
 
   private final String exchangeClassName;
 
-  /** arbitrary exchange params that can be set for unique cases */
-  private Map<String, Object> exchangeSpecificParameters = new HashMap<String, Object>();
+  /**
+   * arbitrary exchange params that can be set for unique cases
+   */
+  private Map<String, Object> exchangeSpecificParameters = new HashMap<>();
 
   /**
    * Dynamic binding
@@ -62,7 +68,7 @@ public class ExchangeSpecification {
    *
    * @param exchangeClass The exchange class
    */
-  public ExchangeSpecification(Class exchangeClass) {
+  public ExchangeSpecification(Class<? extends Exchange> exchangeClass) {
 
     this.exchangeClassName = exchangeClass.getCanonicalName();
   }
@@ -105,6 +111,46 @@ public class ExchangeSpecification {
   }
 
   /**
+   * Get the host name of the http proxy server (e.g. "proxy.com").
+   *
+   * @return the proxy host name
+   */
+  public String getProxyHost() {
+
+    return proxyHost;
+  }
+
+  /**
+   * Set the host name of the http proxy server.
+   *
+   * @param proxyHost the proxy host name
+   */
+  public void setProxyHost(String proxyHost) {
+
+    this.proxyHost = proxyHost;
+  }
+
+  /**
+   * Get the port of the http proxy server (e.g. "80").
+   *
+   * @return the http proxy port
+   */
+  public Integer getProxyPort() {
+
+    return proxyPort;
+  }
+
+  /**
+   * Get the port of the http proxy server.
+   *
+   * @param proxyPort the host name
+   */
+  public void setProxyPort(Integer proxyPort) {
+
+    this.proxyPort = proxyPort;
+  }
+
+  /**
    * Get the API key. For MtGox this would be the "Rest-Key" field.
    *
    * @return the API key
@@ -132,6 +178,51 @@ public class ExchangeSpecification {
   public int getPort() {
 
     return port;
+  }
+
+  /**
+   * Set the http connection timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if
+   * this option has been implemented.  (This value can also be set globally in "rescu.properties" by setting the property
+   * "rescu.http.connTimeoutMillis".)
+   *
+   * @param milliseconds the http read timeout in milliseconds
+   */
+  public void setHttpConnTimeout(int milliseconds) {
+
+    this.httpConnTimeout = milliseconds;
+  }
+
+  /**
+   * Get the http connection timeout for the connection. If the default value of zero is returned then the default rescu timeout will be applied.
+   * Check the exchange code to see if this option has been implemented.
+   *
+   * @return the http read timeout in milliseconds
+   */
+  public int getHttpConnTimeout() {
+
+    return httpConnTimeout;
+  }
+
+  /**
+   * Set the http read timeout for the connection. If not supplied the default rescu timeout will be used. Check the exchange code to see if this
+   * option has been implemented. (This value can also be set globally in "rescu.properties" by setting the property "rescu.http.readTimeoutMillis".)
+   *
+   * @param milliseconds the http read timeout in milliseconds
+   */
+  public void setHttpReadTimeout(int milliseconds) {
+
+    this.httpReadTimeout = milliseconds;
+  }
+
+  /**
+   * Get the http read timeout for the connection. If the default value of zero is returned then the default rescu timeout will be applied. Check the
+   * exchange code to see if this option has been implemented.
+   *
+   * @return the http read timeout in milliseconds
+   */
+  public int getHttpReadTimeout() {
+
+    return httpReadTimeout;
   }
 
   /**
@@ -209,46 +300,6 @@ public class ExchangeSpecification {
   }
 
   /**
-   * Set the URI for plain text streaming.
-   *
-   * @return the plaintext streaming URI
-   */
-  public String getPlainTextUriStreaming() {
-
-    return plainTextUriStreaming;
-  }
-
-  /**
-   * Set the URI for plain text streaming.
-   *
-   * @param plainTextUriStreaming the plaintext streaming URI
-   */
-  public void setPlainTextUriStreaming(String plainTextUriStreaming) {
-
-    this.plainTextUriStreaming = plainTextUriStreaming;
-  }
-
-  /**
-   * Get the URI for SSL streaming.
-   *
-   * @return the URI for ssl streaming
-   */
-  public String getSslUriStreaming() {
-
-    return sslUriStreaming;
-  }
-
-  /**
-   * Set the URI for SSL streaming.
-   *
-   * @param sslUriStreaming the URI for ssl streaming
-   */
-  public void setSslUriStreaming(String sslUriStreaming) {
-
-    this.sslUriStreaming = sslUriStreaming;
-  }
-
-  /**
    * Get the arbitrary exchange-specific parameters to be passed to the exchange implementation.
    *
    * @return a Map of named exchange-specific parameter values
@@ -280,8 +331,6 @@ public class ExchangeSpecification {
 
   /**
    * Set an item in the arbitrary exchange-specific parameters to be passed to the exchange implementation.
-   *
-   * @param exchangeSpecificParameters a Map of named exchange-specific parameter values
    */
   public void setExchangeSpecificParametersItem(String key, Object value) {
 
@@ -400,6 +449,7 @@ public class ExchangeSpecification {
    * @return
    */
   public boolean isShouldLoadRemoteMetaData() {
+
     return shouldLoadRemoteMetaData;
   }
 
@@ -409,6 +459,7 @@ public class ExchangeSpecification {
    * @param shouldLoadRemoteMetaData
    */
   public void setShouldLoadRemoteMetaData(boolean shouldLoadRemoteMetaData) {
+
     this.shouldLoadRemoteMetaData = shouldLoadRemoteMetaData;
   }
 

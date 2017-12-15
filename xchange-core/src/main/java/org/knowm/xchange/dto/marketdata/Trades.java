@@ -1,5 +1,8 @@
 package org.knowm.xchange.dto.marketdata;
 
+import static org.knowm.xchange.dto.marketdata.Trades.TradeSortType.SortByID;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +13,7 @@ import java.util.List;
  * DTO representing a collection of trades
  * </p>
  */
-public class Trades {
+public class Trades implements Serializable {
 
   private static final TradeIDComparator TRADE_ID_COMPARATOR = new TradeIDComparator();
   private static final TradeTimestampComparator TRADE_TIMESTAMP_COMPARATOR = new TradeTimestampComparator();
@@ -21,9 +24,21 @@ public class Trades {
 
   /**
    * Constructor
+   * </p>
+   * Default sort is SortByID
    *
-   * @param trades
-   * @param tradeSortType
+   * @param trades List of trades
+   */
+  public Trades(List<Trade> trades) {
+
+    this(trades, 0L, SortByID);
+  }
+
+  /**
+   * Constructor
+   *
+   * @param trades List of trades
+   * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, TradeSortType tradeSortType) {
 
@@ -33,25 +48,26 @@ public class Trades {
   /**
    * Constructor
    *
-   * @param trades The list of trades
-   * @param lastID
+   * @param trades A list of trades
+   * @param lastID Last Unique ID
+   * @param tradeSortType Trade sort type
    */
   public Trades(List<Trade> trades, long lastID, TradeSortType tradeSortType) {
 
-    this.trades = new ArrayList<Trade>(trades);
+    this.trades = new ArrayList<>(trades);
     this.lastID = lastID;
     this.tradeSortType = tradeSortType;
 
     switch (tradeSortType) {
-    case SortByTimestamp:
-      Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
-      break;
-    case SortByID:
-      Collections.sort(this.trades, TRADE_ID_COMPARATOR);
-      break;
+      case SortByTimestamp:
+        Collections.sort(this.trades, TRADE_TIMESTAMP_COMPARATOR);
+        break;
+      case SortByID:
+        Collections.sort(this.trades, TRADE_ID_COMPARATOR);
+        break;
 
-    default:
-      break;
+      default:
+        break;
     }
   }
 
@@ -80,11 +96,14 @@ public class Trades {
   public String toString() {
 
     StringBuilder sb = new StringBuilder("Trades\n");
-    sb.append("lastID= " + lastID + "\n");
+    sb.append("lastID= ")
+        .append(lastID)
+        .append("\n");
+
     for (Trade trade : getTrades()) {
-      sb.append("[trade=");
-      sb.append(trade.toString());
-      sb.append("]\n");
+      sb.append("[trade=")
+          .append(trade.toString())
+          .append("]\n");
     }
     return sb.toString();
   }

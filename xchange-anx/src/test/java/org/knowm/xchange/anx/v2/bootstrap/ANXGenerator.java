@@ -55,20 +55,20 @@ public class ANXGenerator {
   static ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.INDENT_OUTPUT, true)
       .setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-  static Set<Currency> cryptos = new HashSet<Currency>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
-  static Currency[] fiats = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY };
+  static Set<Currency> cryptos = new HashSet<>(Arrays.asList(BTC, LTC, DOGE, STR, XRP, START, EGD));
+  static Currency[] fiats = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY, CNY};
 
   // counter currencies for STARTCoin - all fiats but CNY
-  static Currency[] fiatsStart = { USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY };
+  static Currency[] fiatsStart = {USD, EUR, GBP, HKD, AUD, CAD, NZD, SGD, JPY};
 
-  static CurrencyPair[] pairsOther = { LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC };
+  static CurrencyPair[] pairsOther = {LTC_BTC, DOGE_BTC, STR_BTC, XRP_BTC};
 
   // base currency -> min order size
-  static Map<Currency, BigDecimal> minAmount = new HashMap<Currency, BigDecimal>();
-  static Map<Currency, BigDecimal> maxAmount = new HashMap<Currency, BigDecimal>();
-  static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<Currency, CurrencyMetaData>();
+  static Map<Currency, BigDecimal> minAmount = new HashMap<>();
+  static Map<Currency, BigDecimal> maxAmount = new HashMap<>();
+  static Map<Currency, CurrencyMetaData> currencyMap = new TreeMap<>();
 
-  static Set<CurrencyPair> pairs = new HashSet<CurrencyPair>();
+  static Set<CurrencyPair> pairs = new HashSet<>();
 
   static {
     minAmount.put(BTC, ONE.movePointLeft(2));
@@ -88,21 +88,21 @@ public class ANXGenerator {
     maxAmount.put(EGD, null);
 
     for (Currency crypto : cryptos) {
-      currencyMap.put(crypto, new CurrencyMetaData(8));
+      currencyMap.put(crypto, new CurrencyMetaData(8, null));
     }
 
-    currencyMap.put(CNY, new CurrencyMetaData(8));
+    currencyMap.put(CNY, new CurrencyMetaData(8, null));
     for (Currency fiat : fiats) {
       if (!currencyMap.containsKey(fiat)) {
-        currencyMap.put(fiat, new CurrencyMetaData(2));
+        currencyMap.put(fiat, new CurrencyMetaData(2, null));
       }
     }
 
     // extra currencies available, but not traded
-    currencyMap.put(CHF, new CurrencyMetaData(2));
-    currencyMap.put(NMC, new CurrencyMetaData(8));
-    currencyMap.put(BGC, new CurrencyMetaData(8));
-    currencyMap.put(PPC, new CurrencyMetaData(8));
+    currencyMap.put(CHF, new CurrencyMetaData(2, null));
+    currencyMap.put(NMC, new CurrencyMetaData(8, null));
+    currencyMap.put(BGC, new CurrencyMetaData(8, null));
+    currencyMap.put(PPC, new CurrencyMetaData(8, null));
 
     Collections.addAll(pairs, pairsOther);
 
@@ -125,7 +125,7 @@ public class ANXGenerator {
 
   private void run() throws IOException {
 
-    Map<CurrencyPair, CurrencyPairMetaData> map = new TreeMap<CurrencyPair, CurrencyPairMetaData>();
+    Map<CurrencyPair, CurrencyPairMetaData> map = new TreeMap<>();
 
     for (CurrencyPair pair : pairs) {
       handleCurrencyPair(map, pair);

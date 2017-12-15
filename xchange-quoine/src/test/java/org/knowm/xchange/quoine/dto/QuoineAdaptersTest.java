@@ -1,6 +1,6 @@
 package org.knowm.xchange.quoine.dto;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,8 +8,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.account.Wallet;
@@ -25,6 +23,8 @@ import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineTickerJSONTest;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersListJSONTest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class QuoineAdaptersTest {
 
@@ -42,7 +42,7 @@ public class QuoineAdaptersTest {
     // Verify that the example data was unmarshalled correctly
     assertThat(ticker.getAsk()).isEqualTo(new BigDecimal("227.09383"));
     assertThat(ticker.getBid()).isEqualTo(new BigDecimal("226.78383"));
-    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("227.38976"));
+    assertThat(ticker.getLast()).isEqualTo(new BigDecimal("227.38586"));
     assertThat(ticker.getVolume()).isEqualTo(new BigDecimal("0.16"));
     assertThat(ticker.getCurrencyPair()).isEqualTo(CurrencyPair.BTC_USD);
   }

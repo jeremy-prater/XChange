@@ -9,8 +9,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.okcoin.OkCoinExchange;
 import org.knowm.xchange.okcoin.dto.marketdata.OkCoinDepth;
-import org.knowm.xchange.okcoin.service.polling.OkCoinMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.okcoin.service.OkCoinMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class OkCoinDepthDemo {
 
@@ -19,7 +19,7 @@ public class OkCoinDepthDemo {
     ExchangeSpecification exSpec = new ExchangeSpecification(OkCoinExchange.class);
 
     // flag to set Use_Intl (USD) or China (default)
-    exSpec.setExchangeSpecificParametersItem("Use_Intl", false);
+    exSpec.setExchangeSpecificParametersItem("Use_Intl", true);
     Exchange okcoinExchange = ExchangeFactory.INSTANCE.createExchange(exSpec);
 
     generic(okcoinExchange);
@@ -28,8 +28,8 @@ public class OkCoinDepthDemo {
 
   private static void generic(Exchange okcoinExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    PollingMarketDataService marketDataService = okcoinExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    MarketDataService marketDataService = okcoinExchange.getMarketDataService();
 
     // Get the latest full order book data for NMC/XRP
     OrderBook orderBook = marketDataService.getOrderBook(CurrencyPair.BTC_CNY);
@@ -40,8 +40,8 @@ public class OkCoinDepthDemo {
 
   private static void raw(Exchange okcoinExchange) throws IOException {
 
-    // Interested in the public polling market data feed (no authentication)
-    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getPollingMarketDataService();
+    // Interested in the public market data feed (no authentication)
+    OkCoinMarketDataServiceRaw okCoinMarketDataServiceRaw = (OkCoinMarketDataServiceRaw) okcoinExchange.getMarketDataService();
 
     // Get the latest full order book data
     OkCoinDepth depth = okCoinMarketDataServiceRaw.getDepth(CurrencyPair.BTC_CNY);
